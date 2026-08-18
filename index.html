@@ -1,60 +1,1225 @@
 <!DOCTYPE html>
 <html lang="ms">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f172a">
-<meta name="description" content="Papan pemuka pemantauan status unit">
-<title>STATUFL • Papan Pemuka</title>
-<script>if(localStorage.getItem("statufl_theme")==="dark")document.documentElement.classList.add("dark");</script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap');
-*{box-sizing:border-box}body{font-family:Inter,sans-serif;background:#f1f5f9;color:#0f172a;transition:.3s}.logo{font-family:Poppins,sans-serif}.hero{background:linear-gradient(135deg,#0f172a,#1e293b)}.card{transition:.3s;box-shadow:0 3px 0 #cbd5e1,0 9px 18px #0f172a1c}.card:hover{transform:translateY(-5px);box-shadow:0 5px 0 #aebaca,0 16px 25px #0f172a2b}.neon{border-color:#22c55e;box-shadow:0 3px 0 #15803d,0 0 22px #22c55e88;animation:glow 2s infinite}@keyframes glow{50%{box-shadow:0 3px 0 #15803d,0 0 32px #22c55ebb}}.panel{border:3px solid #0f172a;border-radius:16px;padding:8px 12px;background:#fff;box-shadow:0 3px 0 #94a3b8}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:2px solid #cbd5e1}.row:last-child{border:0}.badge{font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;white-space:nowrap}.green{background:#dcfce7;color:#166534}.blue{background:#bfdbfe;color:#1e3a8a}.orange{background:#fed7aa;color:#9a3412}.grey{background:#e5e7eb;color:#374151}.yellow{background:#fef3c7;color:#92400e}.priority{position:absolute;right:14px;top:14px}.title{border:2px solid #0f172a;border-radius:13px;padding:10px 12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 3px 0 #94a3b8;background:linear-gradient(135deg,#fff,#f8fafc)}.tip{position:absolute;left:0;top:calc(100% + 7px);z-index:30;padding:9px;background:#0f172a;color:#fff;border-radius:9px;font-size:12px;opacity:0;visibility:hidden;transition:.2s;max-width:calc(100vw - 40px);width:max-content}.titlebox:hover .tip,.titlebox:focus-within .tip{opacity:1;visibility:visible}.refreshing{animation:spin 1s linear infinite}.status-change{animation:pulse .7s ease}.notification-card{animation:in .35s ease;backdrop-filter:blur(12px)}@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{0%{box-shadow:0 0 0 0 #22c55e88}100%{box-shadow:0 0 0 18px transparent}}@keyframes in{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}html.dark body{background:#0f172a;color:#e2e8f0}html.dark nav,html.dark .white,html.dark .bg-white{background:#1e293b!important;color:#e2e8f0}html.dark .title{background:#172033;border-color:#64748b;color:#f8fafc}html.dark .panel{background:#172033;border-color:#64748b}html.dark .row{border-color:#475569}html.dark input{background:#172033!important;color:#fff;border-color:#475569!important}html.dark .text-slate-900,html.dark .text-slate-800{color:#f8fafc!important}html.dark .text-slate-700,html.dark .text-slate-600{color:#cbd5e1!important}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Papan pemuka pemantauan status unit">
+  <title>STATUFL • Papan Pemuka</title>
+  <script>
+    if (localStorage.getItem("statufl_theme") === "dark") document.documentElement.classList.add("dark");
+
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Inter, sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      transition: .3s;
+    }
+
+    .logo {
+      font-family: Poppins, sans-serif;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+    }
+
+    .card {
+      transition: .3s;
+      box-shadow: 0 3px 0 #cbd5e1, 0 9px 18px #0f172a1c;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 0 #aebaca, 0 16px 25px #0f172a2b;
+    }
+
+    .neon {
+      border-color: #22c55e;
+      box-shadow: 0 3px 0 #15803d, 0 0 22px #22c55e88;
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      50% {
+        box-shadow: 0 3px 0 #15803d, 0 0 32px #22c55ebb;
+      }
+    }
+
+    .panel {
+      border: 3px solid #0f172a;
+      border-radius: 16px;
+      padding: 8px 12px;
+      background: #fff;
+      box-shadow: 0 3px 0 #94a3b8;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    .row:last-child {
+      border: 0;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .green {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .blue {
+      background: #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    .orange {
+      background: #fed7aa;
+      color: #9a3412;
+    }
+
+    .grey {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .yellow {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .priority {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      z-index: 10;
+    }
+
+    .title {
+      border: 2px solid #0f172a;
+      border-radius: 13px;
+      padding: 10px 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-shadow: 0 3px 0 #94a3b8;
+      background: linear-gradient(135deg, #fff, #f8fafc);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tip {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 7px);
+      z-index: 30;
+      padding: 9px;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 9px;
+      font-size: 12px;
+      opacity: 0;
+      visibility: hidden;
+      transition: .2s;
+      max-width: calc(100vw - 40px);
+      width: max-content;
+    }
+
+    .titlebox:hover .tip,
+    .titlebox:focus-within .tip {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .refreshing {
+      animation: spin 1s linear infinite;
+    }
+
+    .status-change {
+      animation: pulse .7s ease;
+    }
+
+    .notification-card {
+      animation: in .35s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 #22c55e88;
+      }
+
+      100% {
+        box-shadow: 0 0 0 18px transparent;
+      }
+    }
+
+    @keyframes in {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    html.dark body {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    html.dark nav,
+    html.dark .white,
+    html.dark .bg-white {
+      background: #1e293b !important;
+      color: #e2e8f0;
+    }
+
+    html.dark .title {
+      background: #172033;
+      border-color: #64748b;
+      color: #f8fafc;
+    }
+
+    html.dark .panel {
+      background: #172033;
+      border-color: #64748b;
+    }
+
+    html.dark .row {
+      border-color: #475569;
+    }
+
+    html.dark input {
+      background: #172033 !important;
+      color: #fff;
+      border-color: #475569 !important;
+    }
+
+    html.dark .text-slate-900,
+    html.dark .text-slate-800 {
+      color: #f8fafc !important;
+    }
+
+    html.dark .text-slate-700,
+    html.dark .text-slate-600 {
+      color: #cbd5e1 !important;
+    }
+
+  </style>
+  <style>
+    *,
+    ::before,
+    ::after {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-gradient-from-position: ;
+      --tw-gradient-via-position: ;
+      --tw-gradient-to-position: ;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+      --tw-contain-size: ;
+      --tw-contain-layout: ;
+      --tw-contain-paint: ;
+      --tw-contain-style: ;
+    }
+
+    ::backdrop {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-gradient-from-position: ;
+      --tw-gradient-via-position: ;
+      --tw-gradient-to-position: ;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+      --tw-contain-size: ;
+      --tw-contain-layout: ;
+      --tw-contain-paint: ;
+      --tw-contain-style: ;
+    }
+
+  </style>
+  <style>
+    .pointer-events-none {
+      pointer-events: none;
+    }
+
+    .pointer-events-auto {
+      pointer-events: auto;
+    }
+
+    .fixed {
+      position: fixed;
+    }
+
+    .absolute {
+      position: absolute;
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .inset-0 {
+      inset: 0px;
+    }
+
+    .bottom-5 {
+      bottom: 1.25rem;
+    }
+
+    .left-4 {
+      left: 1rem;
+    }
+
+    .right-3 {
+      right: 0.75rem;
+    }
+
+    .right-5 {
+      right: 1.25rem;
+    }
+
+    .top-1\/2 {
+      top: 50%;
+    }
+
+    .top-5 {
+      top: 1.25rem;
+    }
+
+    .z-40 {
+      z-index: 40;
+    }
+
+    .z-50 {
+      z-index: 50;
+    }
+
+    .col-span-full {
+      grid-column: 1 / -1;
+    }
+
+    .mx-4 {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .my-6 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .-mt-6 {
+      margin-top: -1.5rem;
+    }
+
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .mb-5 {
+      margin-bottom: 1.25rem;
+    }
+
+    .mt-1 {
+      margin-top: 0.25rem;
+    }
+
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+
+    .mt-8 {
+      margin-top: 2rem;
+    }
+
+    .block {
+      display: block;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .grid {
+      display: grid;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .h-10 {
+      height: 2.5rem;
+    }
+
+    .h-5 {
+      height: 1.25rem;
+    }
+
+    .h-9 {
+      height: 2.25rem;
+    }
+
+    .w-10 {
+      width: 2.5rem;
+    }
+
+    .w-5 {
+      width: 1.25rem;
+    }
+
+    .w-9 {
+      width: 2.25rem;
+    }
+
+    .w-\[min\(390px\2c calc\(100vw-2rem\)\)\] {
+      width: min(390px, calc(100vw - 2rem));
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .min-w-0 {
+      min-width: 0px;
+    }
+
+    .max-w-lg {
+      max-width: 32rem;
+    }
+
+    .max-w-screen-xl {
+      max-width: 1280px;
+    }
+
+    .max-w-sm {
+      max-width: 24rem;
+    }
+
+    .max-w-xl {
+      max-width: 36rem;
+    }
+
+    .flex-1 {
+      flex: 1 1 0%;
+    }
+
+    .-translate-y-1\/2 {
+      --tw-translate-y: -50%;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
+
+    .grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+
+    .items-start {
+      align-items: flex-start;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .gap-2 {
+      gap: 0.5rem;
+    }
+
+    .gap-3 {
+      gap: 0.75rem;
+    }
+
+    .gap-4 {
+      gap: 1rem;
+    }
+
+    .gap-5 {
+      gap: 1.25rem;
+    }
+
+    .space-y-3> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+    }
+
+    .space-y-5> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
+    }
+
+    .overflow-hidden {
+      overflow: hidden;
+    }
+
+    .rounded-2xl {
+      border-radius: 1rem;
+    }
+
+    .rounded-3xl {
+      border-radius: 1.5rem;
+    }
+
+    .rounded-xl {
+      border-radius: 0.75rem;
+    }
+
+    .border {
+      border-width: 1px;
+    }
+
+    .border-b {
+      border-bottom-width: 1px;
+    }
+
+    .border-t {
+      border-top-width: 1px;
+    }
+
+    .border-slate-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(226 232 240 / var(--tw-border-opacity, 1));
+    }
+
+    .bg-emerald-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(5 150 105 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-emerald-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(209 250 229 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-slate-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-slate-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-slate-900 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-slate-900\/60 {
+      background-color: rgb(15 23 42 / 0.6);
+    }
+
+    .bg-violet-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(124 58 237 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-white {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-white\/20 {
+      background-color: rgb(255 255 255 / 0.2);
+    }
+
+    .bg-violet-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(245 243 255 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-orange-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 247 237 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-amber-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 251 235 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-red-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
+    }
+
+    .p-1 {
+      padding: 0.25rem;
+    }
+
+    .p-3 {
+      padding: 0.75rem;
+    }
+
+    .p-5 {
+      padding: 1.25rem;
+    }
+
+    .p-6 {
+      padding: 1.5rem;
+    }
+
+    .px-3 {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .px-5 {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    .py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .py-2 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .py-2\.5 {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem;
+    }
+
+    .py-3 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .py-3\.5 {
+      padding-top: 0.875rem;
+      padding-bottom: 0.875rem;
+    }
+
+    .py-4 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .py-8 {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .py-16 {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+
+    .pl-11 {
+      padding-left: 2.75rem;
+    }
+
+    .pr-11 {
+      padding-right: 2.75rem;
+    }
+
+    .pr-20 {
+      padding-right: 5rem;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    .text-3xl {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+
+    .text-4xl {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+
+    .text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+
+    .text-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+    .text-xl {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+
+    .text-\[10px\] {
+      font-size: 10px;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .font-medium {
+      font-weight: 500;
+    }
+
+    .font-semibold {
+      font-weight: 600;
+    }
+
+    .text-amber-600 {
+      --tw-text-opacity: 1;
+      color: rgb(217 119 6 / var(--tw-text-opacity, 1));
+    }
+
+    .text-emerald-300 {
+      --tw-text-opacity: 1;
+      color: rgb(110 231 183 / var(--tw-text-opacity, 1));
+    }
+
+    .text-emerald-400 {
+      --tw-text-opacity: 1;
+      color: rgb(52 211 153 / var(--tw-text-opacity, 1));
+    }
+
+    .text-emerald-600 {
+      --tw-text-opacity: 1;
+      color: rgb(5 150 105 / var(--tw-text-opacity, 1));
+    }
+
+    .text-emerald-700 {
+      --tw-text-opacity: 1;
+      color: rgb(4 120 87 / var(--tw-text-opacity, 1));
+    }
+
+    .text-orange-500 {
+      --tw-text-opacity: 1;
+      color: rgb(249 115 22 / var(--tw-text-opacity, 1));
+    }
+
+    .text-red-500 {
+      --tw-text-opacity: 1;
+      color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-300 {
+      --tw-text-opacity: 1;
+      color: rgb(203 213 225 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-400 {
+      --tw-text-opacity: 1;
+      color: rgb(148 163 184 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-500 {
+      --tw-text-opacity: 1;
+      color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-600 {
+      --tw-text-opacity: 1;
+      color: rgb(71 85 105 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-700 {
+      --tw-text-opacity: 1;
+      color: rgb(51 65 85 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-800 {
+      --tw-text-opacity: 1;
+      color: rgb(30 41 59 / var(--tw-text-opacity, 1));
+    }
+
+    .text-slate-900 {
+      --tw-text-opacity: 1;
+      color: rgb(15 23 42 / var(--tw-text-opacity, 1));
+    }
+
+    .text-violet-500 {
+      --tw-text-opacity: 1;
+      color: rgb(139 92 246 / var(--tw-text-opacity, 1));
+    }
+
+    .text-violet-600 {
+      --tw-text-opacity: 1;
+      color: rgb(124 58 237 / var(--tw-text-opacity, 1));
+    }
+
+    .text-white {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+    }
+
+    .accent-violet-600 {
+      accent-color: #7c3aed;
+    }
+
+    .shadow-2xl {
+      --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-\[0_3px_0_\#020617\] {
+      --tw-shadow: 0 3px 0 #020617;
+      --tw-shadow-colored: 0 3px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-\[0_3px_0_\#5b21b6\] {
+      --tw-shadow: 0 3px 0 #5b21b6;
+      --tw-shadow-colored: 0 3px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-\[0_3px_0_\#cbd5e1\] {
+      --tw-shadow: 0 3px 0 #cbd5e1;
+      --tw-shadow-colored: 0 3px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-\[0_4px_0_\#6d28d9\] {
+      --tw-shadow: 0 4px 0 #6d28d9;
+      --tw-shadow-colored: 0 4px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-sm {
+      --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .backdrop-blur-sm {
+      --tw-backdrop-blur: blur(4px);
+      -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+      backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    }
+
+    .focus\:outline-none:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    .focus\:ring-2:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .focus\:ring-violet-500:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(139 92 246 / var(--tw-ring-opacity, 1));
+    }
+
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .md\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .md\:flex-row {
+        flex-direction: row;
+      }
+
+      .md\:items-end {
+        align-items: flex-end;
+      }
+
+      .md\:justify-between {
+        justify-content: space-between;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .lg\:flex-row {
+        flex-direction: row;
+      }
+
+      .lg\:items-center {
+        align-items: center;
+      }
+    }
+
+    html.dark .dark\:bg-slate-800\/95 {
+      background-color: rgb(30 41 59 / 0.95);
+    }
+
+    html.dark .dark\:bg-slate-700 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(51 65 85 / var(--tw-bg-opacity, 1));
+    }
+
+    html.dark .dark\:bg-violet-900\/30 {
+      background-color: rgb(76 29 149 / 0.3);
+    }
+
+    html.dark .dark\:bg-orange-900\/30 {
+      background-color: rgb(124 45 18 / 0.3);
+    }
+
+    html.dark .dark\:bg-amber-900\/30 {
+      background-color: rgb(120 53 15 / 0.3);
+    }
+
+    html.dark .dark\:bg-red-900\/30 {
+      background-color: rgb(127 29 29 / 0.3);
+    }
+
+    html.dark .dark\:text-white {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+    }
+
+    html.dark .dark\:text-slate-500 {
+      --tw-text-opacity: 1;
+      color: rgb(100 116 139 / var(--tw-text-opacity, 1));
+    }
+
+  </style>
 </head>
+
 <body>
-<nav class="bg-white border-b border-slate-200">
-<div class="max-w-screen-xl mx-auto px-5 py-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-<div class="flex items-center gap-3"><div class="w-10 h-10 bg-violet-600 rounded-2xl flex items-center justify-center shadow-[0_4px_0_#6d28d9]"><i class="fa-solid fa-chart-line text-white text-2xl"></i></div><span class="logo text-3xl font-bold">statufl</span></div>
-<div class="flex flex-wrap gap-2 items-center">
-<div class="flex bg-slate-100 rounded-3xl p-1"><button id="allBtn" onclick="setFilter('all')" class="px-4 py-2 rounded-3xl bg-white shadow-sm text-sm font-medium">Semua Unit</button><button id="needBtn" onclick="setFilter('need')" class="px-4 py-2 rounded-3xl text-sm text-slate-600">Perlu Troli?</button></div>
-<button onclick="toggleTheme()" class="px-4 py-2.5 bg-slate-900 text-white rounded-3xl text-sm shadow-[0_3px_0_#020617]"><i id="themeIcon" class="fa-solid fa-moon"></i> <span id="themeText">Mod Gelap</span></button>
-<button onclick="toggleLang()" class="px-4 py-2.5 bg-violet-600 text-white rounded-3xl text-sm shadow-[0_3px_0_#5b21b6]"><i class="fa-solid fa-language"></i> <span id="langText">English</span></button>
-<button onclick="enableNotifications()" class="px-4 py-2.5 bg-emerald-600 text-white rounded-3xl text-sm"><i class="fa-solid fa-bell"></i> <span data-t="notifications">Notifikasi</span></button>
-<button onclick="refresh()" class="px-4 py-2.5 bg-white border rounded-3xl text-sm text-slate-700"><i id="refreshIcon" class="fa-solid fa-sync text-violet-600"></i> <span data-t="refresh">Muat Semula</span></button>
-<button onclick="openSettings()" class="px-4 py-2.5 bg-white border rounded-3xl text-sm text-slate-700"><i class="fa-solid fa-cog text-violet-600"></i> <span data-t="settings">Tetapan</span></button>
-</div></div></nav>
 
-<header class="hero text-white"><div class="max-w-screen-xl mx-auto px-5 py-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4"><div><div class="flex items-center gap-3"><h1 id="heading" class="text-4xl font-bold">Status Unit</h1><span class="px-3 py-1 bg-white/20 rounded-3xl text-sm"><i class="fa-solid fa-circle text-emerald-400 text-xs"></i> <span data-t="live">Siaran Langsung</span></span></div><p id="subtitle" class="mt-1 text-slate-300">Pemantauan masa nyata Inden Drip, Bukan Ubat & Troli</p></div><div class="text-right"><div data-t="lastUpdated" class="text-xs text-slate-400">KEMAS KINI TERAKHIR</div><div id="updated" class="font-medium text-sm">Sebentar tadi</div><div id="connection" class="mt-2 text-xs text-emerald-300">● Connected</div></div></div></header>
+  <nav class="bg-white border-b border-slate-200">
+    <div class="max-w-screen-xl mx-auto px-5 py-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-violet-600 rounded-2xl flex items-center justify-center shadow-[0_4px_0_#6d28d9]">
+          <i class="fa-solid fa-chart-line text-white text-2xl"></i>
+        </div>
+        <span class="logo text-3xl font-bold">statufl</span>
+      </div>
+      <div class="flex flex-wrap gap-2 items-center">
+        <div class="flex bg-slate-100 rounded-3xl p-1">
+          <button id="allBtn" onclick="setFilter('all')" class="px-4 py-2 rounded-3xl bg-white shadow-sm text-sm font-medium">Semua Unit</button>
+          <button id="needBtn" onclick="setFilter('need')" class="px-4 py-2 rounded-3xl text-sm text-slate-600">Perlu Troli?</button>
+        </div>
+        <button onclick="toggleTheme()" class="px-4 py-2.5 bg-slate-900 text-white rounded-3xl text-sm shadow-[0_3px_0_#020617]">
+          <i id="themeIcon" class="fa-solid fa-moon"></i> <span id="themeText">Mod Gelap</span>
+        </button>
+        <button onclick="toggleLang()" class="px-4 py-2.5 bg-violet-600 text-white rounded-3xl text-sm shadow-[0_3px_0_#5b21b6]">
+          <i class="fa-solid fa-language"></i> <span id="langText">BM</span>
+        </button>
+        <button onclick="enableNotifications()" class="px-4 py-2.5 bg-emerald-600 text-white rounded-3xl text-sm">
+          <i class="fa-solid fa-bell"></i> <span data-t="notifications">Notifications</span>
+        </button>
+        <button onclick="refresh()" class="px-4 py-2.5 bg-white border rounded-3xl text-sm text-slate-700">
+          <i id="refreshIcon" class="fa-solid fa-sync text-violet-600"></i> <span data-t="refresh">Refresh</span>
+        </button>
+        <button onclick="openSettings()" class="px-4 py-2.5 bg-white border rounded-3xl text-sm text-slate-700">
+          <i class="fa-solid fa-cog text-violet-600"></i> <span data-t="settings">Settings</span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
-<main>
-<div class="max-w-screen-xl mx-auto px-5 -mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-<div class="card bg-white rounded-3xl p-5"><div class="flex justify-between"><div><small class="text-slate-500" data-t="totalUnits">Jumlah Unit</small><div id="total" class="text-4xl font-bold">0</div></div><i class="fa-solid fa-hospital text-violet-600 text-2xl"></i></div></div>
-<div class="card bg-white rounded-3xl p-5"><div class="flex justify-between"><div><small class="text-slate-500" data-t="indentReady">Inden Sedia Diambil</small><div id="ready" class="text-4xl font-bold text-emerald-600">0</div></div><i class="fa-solid fa-syringe text-emerald-600 text-2xl"></i></div></div>
-<div class="card bg-white rounded-3xl p-5"><div class="flex justify-between"><div><small class="text-slate-500" data-t="unitsNeedTrolley">Jumlah Unit Perlu Troli</small><div id="need" class="text-4xl font-bold text-amber-600">0</div></div><i class="fa-solid fa-truck text-amber-600 text-2xl"></i></div></div>
-<div class="card bg-white rounded-3xl p-5"><div class="flex justify-between"><div><small class="text-slate-500" data-t="totalTrolleys">Jumlah Troli</small><div id="trolleys" class="text-4xl font-bold text-slate-600">0</div></div><i class="fa-solid fa-cart-flatbed text-slate-600 text-2xl"></i></div></div>
-</div>
-<div class="max-w-screen-xl mx-auto px-5 py-8">
-<label class="block text-sm font-semibold text-slate-700 mb-2" data-t="searchUnit">Cari Unit</label>
-<div class="relative max-w-xl"><i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i><input id="search" oninput="searchUnits(this.value)" class="w-full pl-11 pr-11 py-3.5 bg-white border rounded-2xl shadow-[0_3px_0_#cbd5e1] focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Cari mengikut kod atau nama unit"><button id="clear" onclick="searchUnits('')" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"><i class="fa-solid fa-times"></i></button></div>
-<div class="flex justify-between items-center my-6"><h2 class="font-semibold text-xl text-slate-800" data-t="unitOverview">Ringkasan Unit</h2><span class="text-sm text-slate-500"><b id="count">0</b> <span data-t="unitsShown">unit dipaparkan</span></span></div>
-<div id="grid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div><div id="pages" class="flex justify-center gap-2 mt-8"></div>
-</div></main>
+  <header class="hero text-white">
+    <div class="max-w-screen-xl mx-auto px-5 py-8 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-3">
+          <h1 id="heading" class="text-4xl font-bold">Unit Status</h1>
+          <span class="px-3 py-1 bg-white/20 rounded-3xl text-sm">
+            <i class="fa-solid fa-circle text-emerald-400 text-xs"></i> <span data-t="live">Live</span>
+          </span>
+        </div>
+        <p id="subtitle" class="mt-1 text-slate-300">Real-time Drip, Consumables &amp; Trolley monitoring</p>
+      </div>
+      <div class="text-right">
+        <div data-t="lastUpdated" class="text-xs text-slate-400">LAST UPDATED</div>
+        <div id="updated" class="font-medium text-sm">3:07:50 PM</div>
+        <div id="connection" class="mt-2 text-xs text-emerald-300">● Connected</div>
+      </div>
+    </div>
+  </header>
 
-<div id="notificationsPanel" class="fixed top-5 right-5 z-50 w-[min(390px,calc(100vw-2rem))] space-y-3 pointer-events-none"></div>
-<div id="changeToast" class="fixed bottom-5 right-5 z-40 hidden max-w-sm rounded-2xl bg-emerald-600 px-5 py-4 text-white shadow-2xl"><div class="flex items-center gap-3"><i class="fa-solid fa-bell"></i><span id="changeToastText"></span></div></div>
+  <main>
+    <div class="max-w-screen-xl mx-auto px-5 -mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card bg-white rounded-3xl p-5">
+        <div class="flex justify-between">
+          <div>
+            <small class="text-slate-500" data-t="totalUnits">Total Units</small>
+            <div id="total" class="text-4xl font-bold">43</div>
+          </div>
+          <i class="fa-solid fa-hospital text-violet-600 text-2xl"></i>
+        </div>
+      </div>
+      <div class="card bg-white rounded-3xl p-5">
+        <div class="flex justify-between">
+          <div>
+            <small class="text-slate-500" data-t="indentReady">Indent Ready</small>
+            <div id="ready" class="text-4xl font-bold text-emerald-600">2</div>
+          </div>
+          <i class="fa-solid fa-syringe text-emerald-600 text-2xl"></i>
+        </div>
+      </div>
+      <div class="card bg-white rounded-3xl p-5">
+        <div class="flex justify-between">
+          <div>
+            <small class="text-slate-500" data-t="unitsNeedTrolley">Units Needing Trolley</small>
+            <div id="need" class="text-4xl font-bold text-amber-600">0</div>
+          </div>
+          <i class="fa-solid fa-truck text-amber-600 text-2xl"></i>
+        </div>
+      </div>
+      <div class="card bg-white rounded-3xl p-5">
+        <div class="flex justify-between">
+          <div>
+            <small class="text-slate-500" data-t="totalTrolleys">Total Trolleys</small>
+            <div id="trolleys" class="text-4xl font-bold text-slate-600">3</div>
+          </div>
+          <i class="fa-solid fa-cart-flatbed text-slate-600 text-2xl"></i>
+        </div>
+      </div>
+    </div>
 
-<div id="modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm items-center justify-center"><div class="bg-white rounded-3xl w-full max-w-lg mx-4 overflow-hidden shadow-2xl">
-<div class="p-6 border-b flex justify-between"><div><h3 class="font-semibold text-lg" data-t="settings">Tetapan</h3><p class="text-sm text-slate-500" data-t="configureSheet">Konfigurasikan sumber data Google Sheets</p></div><button onclick="closeSettings()"><i class="fa-solid fa-times text-slate-400"></i></button></div>
-<div class="p-6 space-y-5"><div><label class="block text-sm font-medium mb-2" data-t="sheetUrl">URL Google Sheet</label><input id="sheetUrl" class="w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm" placeholder="Tampal URL atau ID Google Sheets"><p class="text-xs text-slate-500 mt-2" data-t="publicSheet">Sheet mestilah boleh diakses secara umum.</p></div><div class="grid grid-cols-2 gap-4"><div><label class="block text-sm mb-2" data-t="sheetName">Nama Sheet</label><input id="sheetName" value="DATA" class="w-full px-4 py-3 bg-slate-50 border rounded-2xl"></div><div><label class="block text-sm mb-2" data-t="range">Julat</label><input id="sheetRange" value="A:F" class="w-full px-4 py-3 bg-slate-50 border rounded-2xl"></div></div><label class="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 cursor-pointer"><span><span class="block text-sm font-medium" data-t="soundNotifications">Bunyi Notifikasi</span><span class="block text-xs text-slate-500 mt-1" data-t="soundNotificationsHelp">Mainkan bunyi chime apabila status berubah.</span></span><input id="soundNotifications" type="checkbox" class="h-5 w-5 accent-violet-600"></label><div id="status" class="hidden p-3 rounded-2xl text-sm"></div></div>
-<div class="p-6 bg-slate-50 border-t flex justify-between gap-3"><button onclick="testConnection()" class="text-violet-600 text-sm" data-t="testConnection">Uji Sambungan</button><div class="flex gap-3"><button onclick="closeSettings()" class="px-4 py-2 text-sm" data-t="cancel">Batal</button><button onclick="saveSettings()" class="px-5 py-2 bg-violet-600 text-white rounded-2xl text-sm" data-t="saveSettings">Simpan Tetapan</button></div></div>
-</div></div>
+    <div class="max-w-screen-xl mx-auto px-5 py-8">
+      <label class="block text-sm font-semibold text-slate-700 mb-2" data-t="searchUnit">Search Unit</label>
+      <div class="relative max-w-xl">
+        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <input id="search" oninput="searchUnits(this.value)" class="w-full pl-11 pr-11 py-3.5 bg-white border rounded-2xl shadow-[0_3px_0_#cbd5e1] focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="Cari mengikut kod atau nama unit">
+        <button id="clear" onclick="searchUnits('')" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
 
-<script>
-const DEFAULT_SHEET_URL="https://docs.google.com/spreadsheets/d/1m6D6POkxoEGPr0n8X4N2xv3nC5j0rxvsML02tGkK1to/edit?pli=1&gid=0#gid=0";
-const names={ICU: "Intensive Care Unit|UNIT RAWATAN RAPI",
+      <div class="flex justify-between items-center my-6">
+        <h2 class="font-semibold text-xl text-slate-800" data-t="unitOverview">Unit Overview</h2>
+        <span class="text-sm text-slate-500"><b id="count">11</b> <span data-t="unitsShown">units shown</span></span>
+      </div>
+
+      <div id="grid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+      <div id="pages" class="flex justify-center gap-2 mt-8"></div>
+    </div>
+  </main>
+
+  <div id="notificationsPanel" class="fixed top-5 right-5 z-50 w-[min(390px,calc(100vw-2rem))] space-y-3 pointer-events-none"></div>
+
+  <div id="changeToast" class="fixed bottom-5 right-5 z-40 hidden max-w-sm rounded-2xl bg-emerald-600 px-5 py-4 text-white shadow-2xl">
+    <div class="flex items-center gap-3">
+      <i class="fa-solid fa-bell"></i>
+      <span id="changeToastText"></span>
+    </div>
+  </div>
+
+  <div id="modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm items-center justify-center">
+    <div class="bg-white rounded-3xl w-full max-w-lg mx-4 overflow-hidden shadow-2xl">
+      <div class="p-6 border-b flex justify-between">
+        <div>
+          <h3 class="font-semibold text-lg" data-t="settings">Settings</h3>
+          <p class="text-sm text-slate-500" data-t="configureSheet">Configure Google Sheets data source</p>
+        </div>
+        <button onclick="closeSettings()"><i class="fa-solid fa-times text-slate-400"></i></button>
+      </div>
+      <div class="p-6 space-y-5">
+        <div>
+          <label class="block text-sm font-medium mb-2" data-t="sheetUrl">Google Sheet URL</label>
+          <input id="sheetUrl" class="w-full px-4 py-3 bg-slate-50 border rounded-2xl text-sm" placeholder="Tampal URL atau ID Google Sheets">
+          <p class="text-xs text-slate-500 mt-2" data-t="publicSheet">The sheet must be publicly accessible.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm mb-2" data-t="sheetName">Sheet Name</label>
+            <input id="sheetName" value="DATA" class="w-full px-4 py-3 bg-slate-50 border rounded-2xl">
+          </div>
+          <div>
+            <label class="block text-sm mb-2" data-t="range">Range</label>
+            <input id="sheetRange" value="A:F" class="w-full px-4 py-3 bg-slate-50 border rounded-2xl">
+          </div>
+        </div>
+        <label class="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 cursor-pointer">
+          <span>
+            <span class="block text-sm font-medium" data-t="soundNotifications">Notification Sound</span>
+            <span class="block text-xs text-slate-500 mt-1" data-t="soundNotificationsHelp">Play a chime when a status changes.</span>
+          </span>
+          <input id="soundNotifications" type="checkbox" class="h-5 w-5 accent-violet-600">
+        </label>
+        <div id="status" class="hidden p-3 rounded-2xl text-sm"></div>
+      </div>
+      <div class="p-6 bg-slate-50 border-t flex justify-between gap-3">
+        <button onclick="testConnection()" class="text-violet-600 text-sm" data-t="testConnection">Test Connection</button>
+        <div class="flex gap-3">
+          <button onclick="closeSettings()" class="px-4 py-2 text-sm" data-t="cancel">Cancel</button>
+          <button onclick="saveSettings()" class="px-5 py-2 bg-violet-600 text-white rounded-2xl text-sm" data-t="saveSettings">Save Settings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_SHEET_URL = "https://docs.google.com/spreadsheets/d/1m6D6POkxoEGPr0n8X4N2xv3nC5j0rxvsML02tGkK1to/edit?pli=1&gid=0#gid=0";
+
+    const names = {
+      ICU: "Intensive Care Unit|UNIT RAWATAN RAPI",
       W5A: "Ward 5A (Male)|WAD 5A (LELAKI)",
       W6A: "Surgical Ward 6A|WAD PEMBEDAHAN 6A",
       W6B: "Radiotherapy and Oncology Ward 6B|WAD RADIOTERAPI DAN ONKOLOGI 6B",
@@ -90,37 +1255,514 @@ const names={ICU: "Intensive Care Unit|UNIT RAWATAN RAPI",
       WRR: "Radionuklid Ward|WAD RADIONUKLIK",
       TCM: "Traditional Chinese Medicine & Complimentary|PERUBATAN TRADISIONAL CINA & KOMPLIMENTARI",
       OPC: "Outpatient Pharmacy|FARMASI PESAKIT LUAR",
-      CDR/TPN: "Cytotoxic Drug Reconstitution & Total Parenteral Nutrition|REKONSTITUSI UBAT SITOTOKSIK & UNIT NUTRISI PARENTERAL",
+      "CDR/TPN": "Cytotoxic Drug Reconstitution & Total Parenteral Nutrition|REKONSTITUSI UBAT SITOTOKSIK & UNIT NUTRISI PARENTERAL",
       "PETCT(N)": "PETCT (NURSING)|PETCT (KEJURURAWATAN)",
-      PETCT(F): "PETCT (PHARMACY)|PETCT (FARMASI)"};
-const T={bm:{notifications:"Notifikasi",refresh:"Muat Semula",settings:"Tetapan",live:"Siaran Langsung",lastUpdated:"KEMAS KINI TERAKHIR",totalUnits:"Jumlah Unit",indentReady:"Inden Sedia Diambil",unitsNeedTrolley:"Jumlah Unit Perlu Troli",totalTrolleys:"Jumlah Troli",searchUnit:"Cari Unit",unitOverview:"Ringkasan Unit",unitsShown:"unit dipaparkan",configureSheet:"Konfigurasikan sumber data Google Sheets",sheetUrl:"URL Google Sheet",publicSheet:"Sheet mestilah boleh diakses secara umum.",sheetName:"Nama Sheet",range:"Julat",testConnection:"Uji Sambungan",cancel:"Batal",saveSettings:"Simpan Tetapan",drip:"Drip",consumables:"Consumables",trolleyQuantity:"Kuantiti Troli",needTrolley:"Perlu Troli?",priority:"Keutamaan",none:"Tiada unit untuk dipaparkan",soundNotifications:"Bunyi Notifikasi",soundNotificationsHelp:"Mainkan bunyi chime apabila status berubah."},en:{notifications:"Notifications",refresh:"Refresh",settings:"Settings",live:"Live",lastUpdated:"LAST UPDATED",totalUnits:"Total Units",indentReady:"Indent Ready",unitsNeedTrolley:"Units Needing Trolley",totalTrolleys:"Total Trolleys",searchUnit:"Search Unit",unitOverview:"Unit Overview",unitsShown:"units shown",configureSheet:"Configure Google Sheets data source",sheetUrl:"Google Sheet URL",publicSheet:"The sheet must be publicly accessible.",sheetName:"Sheet Name",range:"Range",testConnection:"Test Connection",cancel:"Cancel",saveSettings:"Save Settings",drip:"Drip",consumables:"Consumables",trolleyQuantity:"Trolley Quantity",needTrolley:"Need Trolley?",priority:"Priority",none:"No units to display",soundNotifications:"Notification Sound",soundNotificationsHelp:"Play a chime when a status changes."}};
-let lang=localStorage.getItem("statufl_lang")||"bm",data=[],filter="all",query="",page=1,lastSignature="",refreshBusy=false,notificationsEnabled=localStorage.getItem("statufl_notifications")==="on",soundNotifications=localStorage.getItem("statufl_sound_notifications")!=="off";
-const tr=v=>String(v??"").toLowerCase().replace(/\s+/g,""),readyStatus=v=>tr(v)==="indensediadiambil",needs=u=>["ya","yes"].includes(tr(u.perluTroli)),label=c=>(names[String(c).toUpperCase()]||c).split("|")[lang==="bm"?1:0];
-const cfg=()=>({url:(localStorage.getItem("statufl_url")||"").trim()||DEFAULT_SHEET_URL,name:localStorage.getItem("statufl_name")||"DATA",range:localStorage.getItem("statufl_range")||"A:F"});
-const id=v=>String(v||"").match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/)?.[1]||(/^[a-zA-Z0-9-_]{30,}$/.test(String(v||"").trim())?String(v).trim():null);
-function sample(){return Object.keys(names).map((unit,i)=>({unit,drip:i%4?"Inden Sedia Diambil":"Inden Sedang Diproses",bukanUbat:i%3?"Inden Sedia Diambil":"Inden Belum Diterima",jumlahTroli:i%7,perluTroli:i%3?"No":"Yes",ready:i%4===0}))}
-async function load(){let c=cfg(),sid=id(c.url);if(!sid)return sample();try{let r=await fetch(`https://docs.google.com/spreadsheets/d/${sid}/gviz/tq?sheet=${encodeURIComponent(c.name)}&range=${encodeURIComponent(c.range)}&tqx=out:json&_=${Date.now()}`),x=await r.text(),j=JSON.parse(x.substring(47).slice(0,-2));return(j.table.rows||[]).map(r=>{let v=i=>r.c[i]?.v??"",a=v(1)||"Tidak Aktif",b=v(2)||"Tidak Aktif";return{unit:v(0),drip:a,bukanUbat:b,jumlahTroli:+v(3)||0,perluTroli:v(4)||"No",ready:readyStatus(a)||readyStatus(b)}}).filter(x=>x.unit)}catch(e){return sample()}}
-function status(v){let n=tr(v);return n==="indensediadiambil"?["Ready for Collection","green"]:n==="indensedangdiproses"?["Indent Processing","orange"]:n==="indenbelumditerima"?["Indent Not Received","grey"]:[v,"blue"]}
-function localizedStatus(v){let n=tr(v);if(lang==="en")return status(v)[0];return n==="indensediadiambil"?"Sedia Diambil":n==="indensedangdiproses"?"Sedang Diproses":n==="indenbelumditerima"?"Belum Diterima":v}
-const signature=list=>JSON.stringify(list.map(u=>[u.unit,u.drip,u.bukanUbat,u.jumlahTroli,u.perluTroli,u.ready]).sort((a,b)=>String(a[0]).localeCompare(String(b[0]))));
-function render(){let t=T[lang],x=data.filter(u=>!(tr(u.drip)==="indenbelumditerima"&&tr(u.bukanUbat)==="indenbelumditerima")&&(filter==="all"||needs(u))&&(!query||tr(u.unit).includes(tr(query))||tr(label(u.unit)).includes(tr(query)))).sort((a,b)=>b.ready-a.ready||a.unit.localeCompare(b.unit)),tp=Math.max(1,Math.ceil(x.length/20));page=Math.min(page,tp);let shown=x.slice((page-1)*20,page*20);count.textContent=x.length;grid.innerHTML=shown.length?shown.map(u=>{let a=status(u.drip),b=status(u.bukanUbat),n=label(u.unit);return`<article class="card relative bg-white border rounded-3xl p-5 ${u.ready?"neon":""}">${u.ready?`<span class="priority badge yellow">⚠ ${t.priority}</span>`:""}<div class="flex gap-3 items-center mb-5 ${u.ready?"pr-20":""}"><div class="w-9 h-9 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-xs">${u.unit}</div><div class="titlebox relative flex-1 min-w-0"><div class="title" tabindex="0">${n}</div><div class="tip">${n}</div></div></div><div class="panel"><div class="row"><span><i class="fa-solid fa-syringe w-5 text-violet-500"></i>${t.drip}</span><b class="badge ${a[1]}">${localizedStatus(u.drip)}</b></div><div class="row"><span><i class="fa-solid fa-pills w-5 text-orange-500"></i>${t.consumables}</span><b class="badge ${b[1]}">${localizedStatus(u.bukanUbat)}</b></div><div class="row"><span><i class="fa-solid fa-truck w-5 text-slate-500"></i>${t.trolleyQuantity}</span><b>${u.jumlahTroli}</b></div><div class="row"><span><i class="fa-solid fa-question-circle w-5 text-slate-500"></i>${t.needTrolley}</span><b class="badge ${needs(u)?"yellow":"green"}">${needs(u)?(lang==="en"?"Yes":"Ya"):(lang==="en"?"No":"Tidak")}</b></div></div></article>`}).join(""):`<div class="col-span-full text-center py-16 text-slate-500">${t.none}</div>`;pages.innerHTML=tp>1?Array.from({length:tp},(_,i)=>`<button onclick="page=${i+1};render()" class="w-9 h-9 rounded-xl ${page===i+1?"bg-violet-600 text-white":"bg-white border"}">${i+1}</button>`).join(""):""}
-function stats(){total.textContent=data.length;ready.textContent=data.filter(u=>u.ready).length;need.textContent=data.filter(needs).length;trolleys.textContent=data.reduce((s,u)=>s+u.jumlahTroli,0)}
-function notifyChanges(oldList,newList){let oldMap=new Map(oldList.map(u=>[u.unit,u])),changed=newList.filter(u=>{let o=oldMap.get(u.unit);return o&&JSON.stringify([o.drip,o.bukanUbat,o.jumlahTroli,o.perluTroli])!==JSON.stringify([u.drip,u.bukanUbat,u.jumlahTroli,u.perluTroli])});changed.forEach(addStatusNotification);if(changed.length){changeToastText.textContent=lang==="bm"?`${changed.length} status unit telah dikemas kini.`:`${changed.length} unit status updated.`;changeToast.classList.remove("hidden");grid.classList.add("status-change");setTimeout(()=>{changeToast.classList.add("hidden");grid.classList.remove("status-change")},5000)}}
-let notificationAudioContext=null,notificationSoundTimer=null;
-function playNotificationSound(){if(!soundNotifications)return;try{let AudioContext=window.AudioContext||window.webkitAudioContext;if(!AudioContext)return;notificationAudioContext=notificationAudioContext||new AudioContext();notificationAudioContext.resume();if(notificationSoundTimer)clearInterval(notificationSoundTimer);let end=Date.now()+3000,beep=()=>{if(Date.now()>=end){clearInterval(notificationSoundTimer);notificationSoundTimer=null;return}let o=notificationAudioContext.createOscillator(),g=notificationAudioContext.createGain(),now=notificationAudioContext.currentTime;o.type="sine";o.frequency.setValueAtTime(880,now);o.frequency.exponentialRampToValueAtTime(660,now+0.18);g.gain.setValueAtTime(0.0001,now);g.gain.exponentialRampToValueAtTime(0.12,now+0.02);g.gain.exponentialRampToValueAtTime(0.0001,now+0.2);o.connect(g);g.connect(notificationAudioContext.destination);o.start(now);o.stop(now+0.22)};beep();notificationSoundTimer=setInterval(beep,600)}catch(e){/* Browser audio may require prior interaction. */}}
-function addStatusNotification(u){let bm=lang==="bm",card=document.createElement("div");card.className="notification-card pointer-events-auto rounded-2xl border border-emerald-300 bg-white/95 dark:bg-slate-800/95 shadow-2xl overflow-hidden";card.innerHTML=`<div class="flex items-center justify-between gap-3 px-4 py-3 bg-emerald-600 text-white"><div class="flex items-center gap-2 font-bold"><i class="fa-solid fa-bell"></i><span>${bm?"Kemas Kini Unit":"Unit Status Update"}</span></div><button><i class="fa-solid fa-times"></i></button></div><div class="p-4"><div class="font-bold text-slate-900 dark:text-white mb-3">${u.unit} • ${label(u.unit)}</div><div class="grid grid-cols-2 gap-2 text-xs"><div class="rounded-xl bg-violet-50 dark:bg-violet-900/30 p-2"><div class="text-slate-500">Drip</div><b>${localizedStatus(u.drip)}</b></div><div class="rounded-xl bg-orange-50 dark:bg-orange-900/30 p-2"><div class="text-slate-500">Consumables</div><b>${localizedStatus(u.bukanUbat)}</b></div><div class="rounded-xl bg-slate-100 dark:bg-slate-700 p-2"><div class="text-slate-500">${bm?"Kuantiti Troli":"Trolley Quantity"}</div><b>${u.jumlahTroli}</b></div><div class="rounded-xl bg-amber-50 dark:bg-amber-900/30 p-2"><div class="text-slate-500">${bm?"Perlu Troli?":"Need Trolley?"}</div><b>${needs(u)?(bm?"Ya":"Yes"):(bm?"Tidak":"No")}</b></div></div><div class="mt-3 text-[10px] text-slate-400">${new Date().toLocaleTimeString(bm?"ms-MY":"en-US")}</div></div>`;card.querySelector("button").onclick=()=>card.remove();notificationsPanel.prepend(card);if(notificationsEnabled&&"Notification"in window&&Notification.permission==="granted"){let nativeNotification=new Notification(lang==="bm"?"Kemas Kini Status Unit":"Unit Status Update",{body:`${bm?"Unit":"Unit"}: ${u.unit}\n${bm?"Drip":"Drip"}: ${localizedStatus(u.drip)}\n${bm?"Consumables":"Consumables"}: ${localizedStatus(u.bukanUbat)}\n${bm?"Kuantiti Troli":"Trolley Quantity"}: ${u.jumlahTroli}\n${bm?"Perlu Troli?":"Need Trolley?"}: ${needs(u)?(bm?"Ya":"Yes"):(bm?"Tidak":"No")}`,tag:`statufl-${u.unit}-${Date.now()}`});setTimeout(()=>nativeNotification.close(),3000)}playNotificationSound();setTimeout(()=>card.remove(),3000)}
-async function refresh(){if(refreshBusy)return;refreshBusy=true;refreshIcon.classList.add("refreshing");try{let incoming=await load(),sig=signature(incoming);if(lastSignature&&sig!==lastSignature)notifyChanges(data,incoming);data=incoming;lastSignature=sig;stats();render();updated.textContent=new Date().toLocaleTimeString(lang==="bm"?"ms-MY":"en-US");connection.textContent=id(cfg().url)?"● Connected":"● No Sheet"}catch(e){connection.textContent="● Connection Error"}finally{refreshBusy=false;refreshIcon.classList.remove("refreshing")}}
-function searchUnits(v){query=v;page=1;clear.classList.toggle("hidden",!v);render()}
-function setFilter(v){filter=v;page=1;allBtn.classList.toggle("bg-white",v==="all");needBtn.classList.toggle("bg-white",v==="need");render()}
-function toggleTheme(){let d=document.documentElement.classList.toggle("dark");localStorage.setItem("statufl_theme",d?"dark":"light");themeIcon.className=d?"fa-solid fa-sun":"fa-solid fa-moon";themeText.textContent=d?(lang==="bm"?"Mod Cerah":"Light Mode"):(lang==="bm"?"Mod Gelap":"Dark Mode")}
-function apply(){document.querySelectorAll("[data-t]").forEach(e=>e.textContent=T[lang][e.dataset.t]);heading.textContent=lang==="bm"?"Status Unit":"Unit Status";subtitle.textContent=lang==="bm"?"Pemantauan masa nyata Inden Drip, Consumables & Troli":"Real-time Drip, Consumables & Trolley monitoring";langText.textContent=lang==="bm"?"English":"BM";render()}
-function toggleLang(){lang=lang==="bm"?"en":"bm";localStorage.setItem("statufl_lang",lang);apply()}
-async function enableNotifications(){if(!("Notification"in window))return addStatusNotification({unit:"STATUFL",drip:"Tidak Disokong",bukanUbat:"Tidak Disokong",jumlahTroli:0,perluTroli:"No"});let p=Notification.permission;if(p!=="granted")p=await Notification.requestPermission();notificationsEnabled=p==="granted";localStorage.setItem("statufl_notifications",notificationsEnabled?"on":"off");addStatusNotification({unit:"STATUFL",drip:notificationsEnabled?(lang==="bm"?"Aktif":"Enabled"):(lang==="bm"?"Kebenaran ditolak":"Permission denied"),bukanUbat:notificationsEnabled?"Semua notifikasi diaktifkan":"-",jumlahTroli:0,perluTroli:"No"})}
-function openSettings(){let c=cfg();sheetUrl.value=c.url;sheetName.value=c.name;sheetRange.value=c.range;document.getElementById("soundNotifications").checked=soundNotifications;modal.classList.replace("hidden","flex")}
-function closeSettings(){modal.classList.replace("flex","hidden")}
-function saveSettings(){let url=sheetUrl.value.trim()||DEFAULT_SHEET_URL;if(!id(url))return alert("URL Google Sheets tidak sah.");localStorage.setItem("statufl_url",url);localStorage.setItem("statufl_name",sheetName.value.trim()||"DATA");localStorage.setItem("statufl_range",sheetRange.value.trim()||"A:F");soundNotifications=document.getElementById("soundNotifications").checked;localStorage.setItem("statufl_sound_notifications",soundNotifications?"on":"off");lastSignature="";closeSettings();refresh()}
-function testConnection(){status.textContent=lang==="bm"?"Sambungan diuji. Status akan dikemas kini secara automatik setiap 5 saat.":"Connection tested. Status will update automatically every 5 seconds.";status.className="p-3 rounded-2xl text-sm bg-emerald-100 text-emerald-700";status.classList.remove("hidden")}
-window.onload=()=>{apply();let dark=localStorage.getItem("statufl_theme")==="dark";if(dark!==document.documentElement.classList.contains("dark"))toggleTheme();refresh();setInterval(refresh,5000);if(!localStorage.getItem("statufl_url"))setTimeout(openSettings,500);if("Notification"in window&&Notification.permission==="granted"){notificationsEnabled=true;localStorage.setItem("statufl_notifications","on")}}
-</script>
+      "PETCT(F)": "PETCT (PHARMACY)|PETCT (FARMASI)"
+    };
+
+    // Ward code normalization map (without W prefix)
+    const wardCodeMap = {
+      "5A": "W5A",
+      "5B": "W5B",
+      "6A": "W6A",
+      "6B": "W6B",
+      "7A": "W7A",
+      "7B": "W7B",
+      "8A": "W8A",
+      "8B": "W8B",
+      "9A": "W9A",
+      "9B": "W9B"
+    };
+
+    const T = {
+      bm: {
+        notifications: "Notifikasi",
+        refresh: "Muat Semula",
+        settings: "Tetapan",
+        live: "Siaran Langsung",
+        lastUpdated: "KEMAS KINI TERAKHIR",
+        totalUnits: "Jumlah Unit",
+        indentReady: "Inden Sedia Diambil",
+        unitsNeedTrolley: "Jumlah Unit Perlu Troli",
+        totalTrolleys: "Jumlah Troli",
+        searchUnit: "Cari Unit",
+        unitOverview: "Ringkasan Unit",
+        unitsShown: "unit dipaparkan",
+        configureSheet: "Konfigurasikan sumber data Google Sheets",
+        sheetUrl: "URL Google Sheet",
+        publicSheet: "Sheet mestilah boleh diakses secara umum.",
+        sheetName: "Nama Sheet",
+        range: "Julat",
+        testConnection: "Uji Sambungan",
+        cancel: "Batal",
+        saveSettings: "Simpan Tetapan",
+        drip: "Drip",
+        consumables: "Consumables",
+        trolleyQuantity: "Kuantiti Troli",
+        needTrolley: "Perlu Troli?",
+        directIssue: "Direct Issue?",
+        none: "Tiada",
+        yes: "Ya",
+        no: "Tidak",
+        soundNotifications: "Bunyi Notifikasi",
+        soundNotificationsHelp: "Mainkan bunyi chime apabila status berubah."
+      },
+      en: {
+        notifications: "Notifications",
+        refresh: "Refresh",
+        settings: "Settings",
+        live: "Live",
+        lastUpdated: "LAST UPDATED",
+        totalUnits: "Total Units",
+        indentReady: "Indent Ready",
+        unitsNeedTrolley: "Units Needing Trolley",
+        totalTrolleys: "Total Trolleys",
+        searchUnit: "Search Unit",
+        unitOverview: "Unit Overview",
+        unitsShown: "units shown",
+        configureSheet: "Configure Google Sheets data source",
+        sheetUrl: "Google Sheet URL",
+        publicSheet: "The sheet must be publicly accessible.",
+        sheetName: "Sheet Name",
+        range: "Range",
+        testConnection: "Test Connection",
+        cancel: "Cancel",
+        saveSettings: "Save Settings",
+        drip: "Drip",
+        consumables: "Consumables",
+        trolleyQuantity: "Trolley Quantity",
+        needTrolley: "Need Trolley?",
+        directIssue: "Direct Issue?",
+        none: "None",
+        yes: "Yes",
+        no: "No",
+        soundNotifications: "Notification Sound",
+        soundNotificationsHelp: "Play a chime when a status changes."
+      }
+    };
+
+    let lang = localStorage.getItem("statufl_lang") || "bm";
+    let data = [];
+    let filter = "all";
+    let query = "";
+    let page = 1;
+    let lastSignature = "";
+    let refreshBusy = false;
+    let notificationsEnabled = localStorage.getItem("statufl_notifications") === "on";
+    let soundNotifications = localStorage.getItem("statufl_sound_notifications") !== "off";
+    let columnFHeader = "";
+
+    const tr = v => String(v ?? "").toLowerCase().replace(/\s+/g, "");
+    const readyStatus = v => tr(v) === "indensediadiambil";
+    const needs = u => ["ya", "yes"].includes(tr(u.perluTroli));
+    const cleanHeader = v => String(v ?? "").trim();
+    const fallbackFHeader = () => columnFHeader || T[lang].directIssue;
+
+    function normalizeUnitCode(rawCode) {
+      let code = String(rawCode || "").trim().toUpperCase();
+      // If code is already in names list, return as-is
+      if (names[code]) return code;
+      // If code without W prefix matches ward map
+      if (wardCodeMap[code]) return wardCodeMap[code];
+      // If starts with W and exists
+      if (names["W" + code]) return "W" + code;
+      return code;
+    }
+
+    function label(c) {
+      let code = normalizeUnitCode(c);
+      let name = names[code] || code;
+      return name.split("|")[lang === "bm" ? 1 : 0];
+    }
+
+    function cfg() {
+      return {
+        url: (localStorage.getItem("statufl_url") || "").trim() || DEFAULT_SHEET_URL,
+        name: localStorage.getItem("statufl_name") || "DATA",
+        range: localStorage.getItem("statufl_range") || "A:F"
+      };
+    }
+
+    function id(v) {
+      let match = String(v || "").match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (match) return match[1];
+      let trimmed = String(v || "").trim();
+      if (/^[a-zA-Z0-9-_]{30,}$/.test(trimmed)) return trimmed;
+      return null;
+    }
+
+    function sample() {
+      columnFHeader = T[lang].directIssue;
+      return Object.keys(names).map((unit, i) => ({
+        unit,
+        drip: i % 4 ? "Inden Sedia Diambil" : "Inden Sedang Diproses",
+        bukanUbat: i % 3 ? "Inden Sedia Diambil" : "Inden Belum Diterima",
+        jumlahTroli: i % 7,
+        perluTroli: i % 3 ? "No" : "Yes",
+        priority: i % 5 ? "" : "High",
+        ready: i % 4 === 0
+      }));
+    }
+
+    async function load() {
+      let c = cfg();
+      let sid = id(c.url);
+      if (!sid) {
+        return sample();
+      }
+      try {
+        let url = `https://docs.google.com/spreadsheets/d/${sid}/gviz/tq?sheet=${encodeURIComponent(c.name)}&range=${encodeURIComponent(c.range)}&headers=1&tqx=out:json&_=${Date.now()}`;
+        let r = await fetch(url);
+        let x = await r.text();
+        let j = JSON.parse(x.substring(47).slice(0, -2));
+        let cols = j.table.cols || [];
+        let rows = j.table.rows || [];
+
+        // Read Column F header from F1
+        let headerFromLabel = cleanHeader(cols[5]?.label);
+        let headerFromRow = "";
+        if (rows.length > 0) {
+          headerFromRow = cleanHeader(rows[0].c[5]?.v);
+        }
+        columnFHeader = headerFromLabel || headerFromRow || T[lang].directIssue;
+
+        // Determine if headers=1 already stripped the header row
+        let hasHeaderLabel = headerFromLabel !== "";
+        let dataRows = hasHeaderLabel ? rows : rows.slice(1);
+
+        return dataRows.map(r => {
+          let v = i => r.c[i]?.v ?? "";
+          let rawUnit = v(0);
+          let unit = normalizeUnitCode(rawUnit);
+          let a = v(1) || "Tidak Aktif";
+          let b = v(2) || "Tidak Aktif";
+          return {
+            unit,
+            drip: a,
+            bukanUbat: b,
+            jumlahTroli: +v(3) || 0,
+            perluTroli: v(4) || "No",
+            priority: v(5),
+            ready: readyStatus(a) || readyStatus(b)
+          };
+        }).filter(x => x.unit);
+      } catch (e) {
+        console.error("Sheet load failed:", e);
+        return sample();
+      }
+    }
+
+    function statusInfo(v) {
+      let n = tr(v);
+      if (n === "indensediadiambil") return ["green", "Ready for Collection", "Sedia Diambil"];
+      if (n === "indensedangdiproses") return ["orange", "Indent Processing", "Sedang Diproses"];
+      if (n === "indenbelumditerima") return ["grey", "Indent Not Received", "Belum Diterima"];
+      return ["blue", v, v];
+    }
+
+    function localizedStatus(v) {
+      let info = statusInfo(v);
+      return lang === "bm" ? info[2] : info[1];
+    }
+
+    const signature = list => JSON.stringify(list.map(u => [u.unit, u.drip, u.bukanUbat, u.jumlahTroli, u.perluTroli, u.priority, u.ready]).sort((a, b) => String(a[0]).localeCompare(String(b[0]))));
+
+    function escapeHtml(s) {
+      return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function directIssueBadgeClass(priority) {
+      let p = tr(priority);
+      if (!priority || p === "" || p === "tiada" || p === "none" || p === "tidak") return "grey";
+      return "orange";
+    }
+
+    function directIssueDisplayValue(priority) {
+      let p = tr(priority);
+      if (!priority || p === "" || p === "tiada" || p === "none") return T[lang].none;
+      if (p === "ya" || p === "yes") return T[lang].yes;
+      if (p === "tidak" || p === "no") return T[lang].no;
+      return String(priority).trim();
+    }
+
+    function render() {
+      let t = T[lang];
+      let headerF = fallbackFHeader();
+      let x = data
+        .filter(u => !(tr(u.drip) === "indenbelumditerima" && tr(u.bukanUbat) === "indenbelumditerima") && (filter === "all" || needs(u)) && (!query || tr(u.unit).includes(tr(query)) || tr(label(u.unit)).includes(tr(query))))
+        .sort((a, b) => b.ready - a.ready || a.unit.localeCompare(b.unit));
+      let tp = Math.max(1, Math.ceil(x.length / 20));
+      page = Math.min(page, tp);
+      let shown = x.slice((page - 1) * 20, page * 20);
+      count.textContent = x.length;
+
+      grid.innerHTML = shown.length ? shown.map(u => {
+        let dripInfo = statusInfo(u.drip);
+        let consumInfo = statusInfo(u.bukanUbat);
+        let unitName = label(u.unit);
+        let diClass = directIssueBadgeClass(u.priority);
+        let diValue = directIssueDisplayValue(u.priority);
+
+        return `<article class="card relative bg-white border rounded-3xl p-5 ${u.ready ? "neon" : ""}">
+      ${u.ready ? `<span class="priority badge yellow"><i class="fa-solid fa-triangle-exclamation"></i> ${escapeHtml(headerF)}</span>` : ""}
+      <div class="flex gap-3 items-center mb-5 ${u.ready ? "pr-20" : ""}">
+        <div class="w-9 h-9 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">${escapeHtml(u.unit)}</div>
+        <div class="titlebox relative flex-1 min-w-0">
+          <div class="title" tabindex="0">${escapeHtml(unitName)}</div>
+          <div class="tip">${escapeHtml(unitName)}</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="row"><span><i class="fa-solid fa-syringe w-5 text-violet-500"></i>${t.drip}</span><b class="badge ${dripInfo[0]}">${localizedStatus(u.drip)}</b></div>
+        <div class="row"><span><i class="fa-solid fa-pills w-5 text-orange-500"></i>${t.consumables}</span><b class="badge ${consumInfo[0]}">${localizedStatus(u.bukanUbat)}</b></div>
+        <div class="row"><span><i class="fa-solid fa-truck w-5 text-slate-500"></i>${t.trolleyQuantity}</span><b>${u.jumlahTroli}</b></div>
+        <div class="row"><span><i class="fa-solid fa-question-circle w-5 text-slate-500"></i>${t.needTrolley}</span><b class="badge ${needs(u) ? "yellow" : "green"}">${needs(u) ? t.yes : t.no}</b></div>
+        <div class="row"><span><i class="fa-solid fa-triangle-exclamation w-5 text-red-500"></i>${escapeHtml(headerF)}</span><b class="badge ${diClass}">${escapeHtml(diValue)}</b></div>
+      </div>
+    </article>`;
+      }).join("") : `<div class="col-span-full text-center py-16 text-slate-500">${t.none}</div>`;
+
+      pages.innerHTML = tp > 1 ? Array.from({
+        length: tp
+      }, (_, i) => `<button onclick="page=${i + 1};render()" class="w-9 h-9 rounded-xl ${page === i + 1 ? "bg-violet-600 text-white" : "bg-white border"}">${i + 1}</button>`).join("") : "";
+    }
+
+    function stats() {
+      total.textContent = data.length;
+      ready.textContent = data.filter(u => u.ready).length;
+      need.textContent = data.filter(needs).length;
+      trolleys.textContent = data.reduce((s, u) => s + u.jumlahTroli, 0);
+    }
+
+    function notifyChanges(oldList, newList) {
+      let oldMap = new Map(oldList.map(u => [u.unit, u]));
+      let changed = newList.filter(u => {
+        let o = oldMap.get(u.unit);
+        return o && JSON.stringify([o.drip, o.bukanUbat, o.jumlahTroli, o.perluTroli, o.priority]) !== JSON.stringify([u.drip, u.bukanUbat, u.jumlahTroli, u.perluTroli, u.priority]);
+      });
+      changed.forEach(addStatusNotification);
+      if (changed.length) {
+        changeToastText.textContent = lang === "bm" ? `${changed.length} status unit telah dikemas kini.` : `${changed.length} unit status updated.`;
+        changeToast.classList.remove("hidden");
+        grid.classList.add("status-change");
+        setTimeout(() => {
+          changeToast.classList.add("hidden");
+          grid.classList.remove("status-change");
+        }, 5000);
+      }
+    }
+
+    let notificationAudioContext = null;
+    let notificationSoundTimer = null;
+
+    function playNotificationSound() {
+      if (!soundNotifications) return;
+      try {
+        let AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        notificationAudioContext = notificationAudioContext || new AudioContext();
+        notificationAudioContext.resume();
+        if (notificationSoundTimer) clearInterval(notificationSoundTimer);
+        let end = Date.now() + 3000;
+        let beep = () => {
+          if (Date.now() >= end) {
+            clearInterval(notificationSoundTimer);
+            notificationSoundTimer = null;
+            return;
+          }
+          let o = notificationAudioContext.createOscillator();
+          let g = notificationAudioContext.createGain();
+          let now = notificationAudioContext.currentTime;
+          o.type = "sine";
+          o.frequency.setValueAtTime(880, now);
+          o.frequency.exponentialRampToValueAtTime(660, now + 0.18);
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+          o.connect(g);
+          g.connect(notificationAudioContext.destination);
+          o.start(now);
+          o.stop(now + 0.22);
+        };
+        beep();
+        notificationSoundTimer = setInterval(beep, 600);
+      } catch (e) {
+        /* Browser audio may require prior interaction. */
+      }
+    }
+
+    function addStatusNotification(u) {
+      let t = T[lang];
+      let headerF = fallbackFHeader();
+      let diValue = directIssueDisplayValue(u.priority);
+      let card = document.createElement("div");
+      card.className = "notification-card pointer-events-auto rounded-2xl border border-emerald-300 bg-white/95 dark:bg-slate-800/95 shadow-2xl overflow-hidden";
+      card.innerHTML = `<div class="flex items-center justify-between gap-3 px-4 py-3 bg-emerald-600 text-white">
+    <div class="flex items-center gap-2 font-bold"><i class="fa-solid fa-bell"></i><span>${lang === "bm" ? "Kemas Kini Unit" : "Unit Status Update"}</span></div>
+    <button><i class="fa-solid fa-times"></i></button>
+  </div>
+  <div class="p-4">
+    <div class="font-bold text-slate-900 dark:text-white mb-3">${escapeHtml(u.unit)} • ${escapeHtml(label(u.unit))}</div>
+    <div class="grid grid-cols-2 gap-2 text-xs">
+      <div class="rounded-xl bg-violet-50 dark:bg-violet-900/30 p-2"><div class="text-slate-500 dark:text-slate-500">${t.drip}</div><b>${localizedStatus(u.drip)}</b></div>
+      <div class="rounded-xl bg-orange-50 dark:bg-orange-900/30 p-2"><div class="text-slate-500 dark:text-slate-500">${t.consumables}</div><b>${localizedStatus(u.bukanUbat)}</b></div>
+      <div class="rounded-xl bg-slate-100 dark:bg-slate-700 p-2"><div class="text-slate-500 dark:text-slate-500">${t.trolleyQuantity}</div><b>${u.jumlahTroli}</b></div>
+      <div class="rounded-xl bg-amber-50 dark:bg-amber-900/30 p-2"><div class="text-slate-500 dark:text-slate-500">${t.needTrolley}</div><b>${needs(u) ? t.yes : t.no}</b></div>
+      <div class="rounded-xl bg-red-50 dark:bg-red-900/30 p-2 col-span-full"><div class="text-slate-500 dark:text-slate-500">${escapeHtml(headerF)}</div><b>${escapeHtml(diValue)}</b></div>
+    </div>
+    <div class="mt-3 text-[10px] text-slate-400">${new Date().toLocaleTimeString(lang === "bm" ? "ms-MY" : "en-US")}</div>
+  </div>`;
+      card.querySelector("button").onclick = () => card.remove();
+      notificationsPanel.prepend(card);
+      if (notificationsEnabled && "Notification" in window && Notification.permission === "granted") {
+        let nativeNotification = new Notification(
+          lang === "bm" ? "Kemas Kini Status Unit" : "Unit Status Update", {
+            body: `${t.drip}: ${localizedStatus(u.drip)}\n${t.consumables}: ${localizedStatus(u.bukanUbat)}\n${t.trolleyQuantity}: ${u.jumlahTroli}\n${t.needTrolley}: ${needs(u) ? t.yes : t.no}\n${headerF}: ${diValue}`,
+            tag: `statufl-${u.unit}-${Date.now()}`
+          }
+        );
+        setTimeout(() => nativeNotification.close(), 3000);
+      }
+      playNotificationSound();
+      setTimeout(() => card.remove(), 3000);
+    }
+
+    async function refresh() {
+      if (refreshBusy) return;
+      refreshBusy = true;
+      refreshIcon.classList.add("refreshing");
+      try {
+        let incoming = await load();
+        let sig = signature(incoming);
+        if (lastSignature && sig !== lastSignature) notifyChanges(data, incoming);
+        data = incoming;
+        lastSignature = sig;
+        stats();
+        render();
+        updated.textContent = new Date().toLocaleTimeString(lang === "bm" ? "ms-MY" : "en-US");
+        connection.textContent = id(cfg().url) ? "● Connected" : "● No Sheet";
+      } catch (e) {
+        connection.textContent = "● Connection Error";
+      } finally {
+        refreshBusy = false;
+        refreshIcon.classList.remove("refreshing");
+      }
+    }
+
+    function searchUnits(v) {
+      query = v;
+      page = 1;
+      clear.classList.toggle("hidden", !v);
+      render();
+    }
+
+    function setFilter(v) {
+      filter = v;
+      page = 1;
+      allBtn.classList.toggle("bg-white", v === "all");
+      allBtn.classList.toggle("shadow-sm", v === "all");
+      needBtn.classList.toggle("bg-white", v === "need");
+      needBtn.classList.toggle("shadow-sm", v === "need");
+      render();
+    }
+
+    function toggleTheme() {
+      let d = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("statufl_theme", d ? "dark" : "light");
+      themeIcon.className = d ? "fa-solid fa-sun" : "fa-solid fa-moon";
+      themeText.textContent = d ? (lang === "bm" ? "Mod Cerah" : "Light Mode") : (lang === "bm" ? "Mod Gelap" : "Dark Mode");
+    }
+
+    function apply() {
+      let t = T[lang];
+      document.querySelectorAll("[data-t]").forEach(e => {
+        if (t[e.dataset.t]) e.textContent = t[e.dataset.t];
+      });
+      heading.textContent = lang === "bm" ? "Status Unit" : "Unit Status";
+      subtitle.textContent = lang === "bm" ? "Pemantauan masa nyata Inden Drip, Consumables & Troli" : "Real-time Drip, Consumables & Trolley monitoring";
+      langText.textContent = lang === "bm" ? "English" : "BM";
+      render();
+    }
+
+    function toggleLang() {
+      lang = lang === "bm" ? "en" : "bm";
+      localStorage.setItem("statufl_lang", lang);
+      apply();
+    }
+
+    async function enableNotifications() {
+      if (!("Notification" in window)) {
+        return addStatusNotification({
+          unit: "STATUFL",
+          drip: "Tidak Disokong",
+          bukanUbat: "Tidak Disokong",
+          jumlahTroli: 0,
+          perluTroli: "No",
+          priority: ""
+        });
+      }
+      let p = Notification.permission;
+      if (p !== "granted") p = await Notification.requestPermission();
+      notificationsEnabled = p === "granted";
+      localStorage.setItem("statufl_notifications", notificationsEnabled ? "on" : "off");
+      addStatusNotification({
+        unit: "STATUFL",
+        drip: notificationsEnabled ? (lang === "bm" ? "Aktif" : "Enabled") : (lang === "bm" ? "Kebenaran ditolak" : "Permission denied"),
+        bukanUbat: notificationsEnabled ? "Semua notifikasi diaktifkan" : "-",
+        jumlahTroli: 0,
+        perluTroli: "No",
+        priority: ""
+      });
+    }
+
+    function openSettings() {
+      let c = cfg();
+      sheetUrl.value = c.url;
+      sheetName.value = c.name;
+      sheetRange.value = c.range;
+      document.getElementById("soundNotifications").checked = soundNotifications;
+      modal.classList.replace("hidden", "flex");
+    }
+
+    function closeSettings() {
+      modal.classList.replace("flex", "hidden");
+    }
+
+    function saveSettings() {
+      let url = sheetUrl.value.trim() || DEFAULT_SHEET_URL;
+      if (!id(url)) return alert("URL Google Sheets tidak sah.");
+      localStorage.setItem("statufl_url", url);
+      localStorage.setItem("statufl_name", sheetName.value.trim() || "DATA");
+      localStorage.setItem("statufl_range", sheetRange.value.trim() || "A:F");
+      soundNotifications = document.getElementById("soundNotifications").checked;
+      localStorage.setItem("statufl_sound_notifications", soundNotifications ? "on" : "off");
+      lastSignature = "";
+      columnFHeader = "";
+      closeSettings();
+      refresh();
+    }
+
+    function testConnection() {
+      status.textContent = lang === "bm" ? "Sambungan diuji. Status akan dikemas kini secara automatik setiap 5 saat." : "Connection tested. Status will update automatically every 5 seconds.";
+      status.className = "p-3 rounded-2xl text-sm bg-emerald-100 text-emerald-700";
+      status.classList.remove("hidden");
+    }
+
+    window.onload = () => {
+      apply();
+      let dark = localStorage.getItem("statufl_theme") === "dark";
+      if (dark !== document.documentElement.classList.contains("dark")) toggleTheme();
+      refresh();
+      setInterval(refresh, 5000);
+      if (!localStorage.getItem("statufl_url")) setTimeout(openSettings, 500);
+      if ("Notification" in window && Notification.permission === "granted") {
+        notificationsEnabled = true;
+        localStorage.setItem("statufl_notifications", "on");
+      }
+    };
+
+  </script>
+
 </body>
+
 </html>
